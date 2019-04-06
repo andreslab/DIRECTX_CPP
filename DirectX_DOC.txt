@@ -1,0 +1,31 @@
+Problemas con las lbrerias en VS2017, no incluye DirectXTK
+
+1) ir al repositorio de microsoft/DirectXTK 
+https://github.com/Microsoft/DirectXTK
+2) descargar el proyecto y ejecutar abrir en VS el proyecto segun el VS y SO que tengas
+en este caso VS2107 win 10
+3) realizamos un Build en win 32 debug y release, luego win 64 debug y release
+4) copiamos la carpeta Inc generada en el proyecto creado y renmobramos a Includes
+5) creamos una carpta "Libs" y tamb x86, x64 y por cada uno carpeta "Debug" y "Release"
+6) rellenamos con el contenido de la carpeta "Bin" que se genero en el proyecto de las librias DirectXTK
+7) En proyect -> properties -> seleccionar "All Platform" -> VC++ Directories -> Include Direcoties -> "añadir ruta"
+8) añadimos la ruta de la carpeta "Include"
+9) En proyect -> properties -> seleccionar "Debug y x86"
+10) agregamos la ruta de correspondiente de "Libs" en VC++ Directories -> Library Directories
+Nota: se puede representar la ruta del proyecto con $(SolutionDir)
+
+Código de ejemplo:
+
+#include <Windows.h>
+#pragma comment(lib, "d3d11.lib")
+#pragma comment(lib, "DirectXTK.lib")
+que todo funciona
+int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
+	_In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPWSTR lpCmdLine,
+	_In_ int mCmdShow) {
+	return 0;
+	
+}
+
+Se prueba en debug y release en x86 para probar 
