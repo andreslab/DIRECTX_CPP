@@ -1,9 +1,11 @@
 #pragma once
 #include "ErrorLogger.h"
 
+class WindowContainer;
+
 class RenderWindow {
 public:
-	bool Initialize(HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height);
+	bool Initialize(WindowContainer * pWindowContainer, HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height);
 	bool ProcessMessages(); //si se presiona una tecla o se usa el mouse
 	~RenderWindow();
 private:
