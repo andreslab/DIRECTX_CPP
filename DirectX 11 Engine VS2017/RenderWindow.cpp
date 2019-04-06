@@ -1,4 +1,5 @@
-#include "RenderWindow.h"
+//#include "RenderWindow.h"
+#include "WindowContainer.h"
 
 //funcion de inicializacion
 bool RenderWindow::Initialize(HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int heght) {
@@ -72,10 +73,39 @@ RenderWindow::~RenderWindow() {
 	}
 }
 
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+	//return DefWindowProc(hwnd, uMsg, wParam, lParam);
+
+	switch (uMsg)
+	{
+	//se ejecuta cuando crea una ventana
+	case WM_NCCREATE:
+	{
+		OutputDebugStringA("the window was created.\n");
+		return DefWindowProc(hwnd, uMsg, wParam, lParam);
+	}
+	//capturar la letra luego de la presion
+	/*case WM_CHAR:
+	{
+		unsigned char letter = static_cast<unsigned char>(wParam);
+		return 0;
+	}
+	//captura la accion de presion de la tecla
+	case WM_KEYDOWN:
+	{
+		unsigned char keycode = static_cast<unsigned char>(wParam);
+		return 0;
+	}*/
+	default:
+		return DefWindowProc(hwnd, uMsg, wParam, lParam);
+	}
+}
+
 void RenderWindow::RegisterWindowClass(){
 	WNDCLASSEX wc; // our windows class (this has to be filled before our window can be created)
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC; //flags [REDRAW on width /height]
-	wc.lpfnWndProc = DefWindowProc; // Pointer to window Proc fuction handling message
+	//wc.lpfnWndProc = DefWindowProc; // Pointer to window Proc fuction handling message
+	wc.lpfnWndProc = WindowProc;
 	wc.cbClsExtra = 0; //# of extra bytes to allocate following the windows class structure
 	wc.cbWndExtra = 0; //# of extra bytes to allocate following the windows instance.
 	wc.hInstance = this->hInstance; //handle to the instance
